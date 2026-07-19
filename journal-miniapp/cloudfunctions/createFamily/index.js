@@ -21,8 +21,13 @@ exports.main = async (event, context) => {
     }
   });
 
+  // 加入 familyIds 数组，并设为当前家庭
   await db.collection('users').where({ openid }).update({
-    data: { familyId, familyName }
+    data: {
+      familyIds: db.command.push(familyId),
+      currentFamilyId: familyId,
+      currentFamilyName: familyName
+    }
   });
 
   return { ok: true, familyId, familyName };

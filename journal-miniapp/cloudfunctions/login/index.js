@@ -16,8 +16,9 @@ exports.main = async (event, context) => {
       data: {
         openid,
         nickName: '我',
-        familyId: '',
-        familyName: '',
+        familyIds: [],          // 已加入的家庭ID列表（支持多家庭）
+        currentFamilyId: '',    // 当前正在查看的家庭
+        currentFamilyName: '',
         createdAt: new Date()
       }
     });
@@ -33,8 +34,9 @@ exports.main = async (event, context) => {
       _id: user._id,
       openid: user.openid,
       nickName: user.nickName,
-      familyId: user.familyId,
-      familyName: user.familyName
+      familyIds: user.familyIds || [],
+      currentFamilyId: user.currentFamilyId || '',
+      currentFamilyName: user.currentFamilyName || ''
     }
   };
 };

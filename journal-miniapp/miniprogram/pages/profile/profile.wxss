@@ -53,4 +53,32 @@
 .code-text { font-size: 28rpx; color: #4a4036; word-break: break-all; flex: 1; }
 .copy { color: #c08552; font-weight: 600; margin-left: 16rpx; }
 
+/* 多家庭列表 */
+.fam-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #faf6ef;
+  border: 1rpx solid #ece3d6;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 16rpx;
+}
+.fam-item.on {
+  border-color: #c08552;
+  background: #fdf3ea;
+}
+.fam-name { font-size: 30rpx; font-weight: 600; color: #4a4036; }
+.fam-id { font-size: 22rpx; color: #b3a596; margin-top: 4rpx; }
+.fam-right { display: flex; align-items: center; gap: 20rpx; }
+.badge {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  background: #f0e9dd;
+  color: #8a7a68;
+}
+.badge.cur { background: #c08552; color: #fff; }
+.copy-mini { font-size: 24rpx; color: #c08552; font-weight: 600; }
+
 .tip { background: #fbf7f0; }

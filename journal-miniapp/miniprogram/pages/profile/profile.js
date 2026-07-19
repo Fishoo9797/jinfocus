@@ -4,35 +4,28 @@ const app = getApp();
 Page({
   data: {
     nickName: '',
-    familyName: '',
-    familyId: '',
-    memberCount: 0,
-    joined: false,        // 是否已加入家庭
-    inviteCode: '',       // 加入时输入的家庭ID
-    showJoin: false
+    familyName: '',        // 创建家庭时输入的名字
+    inviteCode: '',        // 加入时输入的家庭ID
+    showJoin: false,
+    families: [],          // 已加入家庭列表 [{familyId, familyName, current}]
+    currentFamilyId: '',
+    currentFamilyName: '',
+    joined: false
   },
 
   onShow() {
     const u = app.globalData.userInfo;
+    const families = (app.globalData.familyIds || []).map((fid) => ({
+      familyId: fid,
+      familyName: (app.globalData.families.find((f) => f.familyId === fid) || {}).familyName || '未命名家庭',
+      current: fid === app.globalData.familyId
+    }));
     this.setData({
-      joined: !!app.globalData.familyId,
       nickName: u ? u.nickName : '',
-      familyName: app.globalData.familyName || '',
-      familyId: app.globalData.familyId || ''
-    });
-    if (app.globalData.familyId) {
-      this.loadMemberCount();
-    }
-  },
-
-  loadMemberCount() {
-    wx.cloud.callFunction({
-      name: 'getFamily',
-      data: {},
-      success: (res) => {
-        const members = (res.result && res.result.members) || [];
-        this.setData({ memberCount: members.length });
-      }
+      families,
+      currentFamilyId: app.globalData.familyId || '',
+      currentFamilyName: app.globalData.familyName || '',
+      joined: !!app.globalData.familyId
     });
   },
 
@@ -72,13 +65,7 @@ Page({
       success: (res) => {
         wx.hideLoading();
         const r = res.result || {};
-        app.globalData.familyId = r.familyId;
-        app.globalData.familyName = name;
-        if (app.globalData.userInfo) {
-          app.globalData.userInfo.familyId = r.familyId;
-          app.globalData.userInfo.familyName = name;
-        }
-        this.setData({ joined: true, familyId: r.familyId });
+        this.applyFamily(r.familyId, r.familyName);
         wx.showToast({ title: '家庭已创建', icon: 'success' });
       },
       fail: () => {
@@ -105,13 +92,8 @@ Page({
         wx.hideLoading();
         const r = res.result || {};
         if (r.ok) {
-          app.globalData.familyId = code;
-          app.globalData.familyName = r.familyName || '';
-          if (app.globalData.userInfo) {
-            app.globalData.userInfo.familyId = code;
-            app.globalData.userInfo.familyName = r.familyName || '';
-          }
-          this.setData({ joined: true, familyId: code, familyName: r.familyName || '', showJoin: false });
+          this.applyFamily(r.familyId, r.familyName);
+          this.setData({ showJoin: false, inviteCode: '' });
           wx.showToast({ title: '已加入', icon: 'success' });
         } else {
           wx.showToast({ title: r.msg || '家庭不存在', icon: 'none' });
@@ -124,10 +106,60 @@ Page({
     });
   },
 
+  // 切换当前家庭
+  switchFamily(e) {
+    const fid = e.currentTarget.dataset.fid;
+    if (fid === this.data.currentFamilyId) return;
+    wx.showLoading({ title: '切换中...' });
+    wx.cloud.callFunction({
+      name: 'joinFamily',
+      data: { familyId: fid },   // joinFamily 对已加入的家庭仅切换当前
+      success: (res) => {
+        wx.hideLoading();
+        const r = res.result || {};
+        if (r.ok) {
+          this.applyFamily(r.familyId, r.familyName);
+          wx.showToast({ title: '已切换到 ' + (r.familyName || '家庭'), icon: 'none' });
+        } else {
+          wx.showToast({ title: r.msg || '切换失败', icon: 'none' });
+        }
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.showToast({ title: '切换失败', icon: 'none' });
+      }
+    });
+  },
+
+  // 统一：把家庭信息写回 globalData 并刷新本页
+  applyFamily(familyId, familyName) {
+    const app2 = getApp();
+    app2.globalData.familyId = familyId;
+    app2.globalData.familyName = familyName || '';
+    if (app2.globalData.userInfo) {
+      app2.globalData.userInfo.currentFamilyId = familyId;
+      app2.globalData.userInfo.currentFamilyName = familyName || '';
+    }
+    // 重新拉取最新档案，确保 familyIds 同步
+    if (app2.login) {
+      app2.login().then(() => this.onShow());
+    } else {
+      this.onShow();
+    }
+  },
+
   copyId() {
     wx.setClipboardData({
-      data: this.data.familyId,
+      data: this.data.currentFamilyId,
       success: () => wx.showToast({ title: '家庭ID已复制', icon: 'none' })
+    });
+  },
+
+  copyInvite(e) {
+    const fid = e.currentTarget.dataset.fid;
+    wx.setClipboardData({
+      data: fid,
+      success: () => wx.showToast({ title: '已复制', icon: 'none' })
     });
   }
 });

@@ -13,7 +13,7 @@
     </view>
   </view>
 
-  <!-- 家庭区域 -->
+  <!-- 未加入任何家庭 -->
   <view class="card" wx:if="{{!joined}}">
     <view class="section-title">家庭空间</view>
     <view class="muted">创建或加入一个家庭，大家就能互相看到每天的日记啦。</view>
@@ -34,24 +34,42 @@
     </block>
   </view>
 
-  <!-- 已加入家庭 -->
+  <!-- 已加入家庭：列表 + 切换 -->
   <view class="card" wx:else>
-    <view class="section-title">我的家庭</view>
-    <view class="family-line">
-      <text class="fname">{{familyName}}</text>
-      <text class="fcount">{{memberCount}} 位成员</text>
+    <view class="section-title">我的家庭（点击切换当前圈子）</view>
+    <view
+      class="fam-item {{item.current ? 'on' : ''}}"
+      wx:for="{{families}}"
+      wx:key="familyId"
+      data-fid="{{item.familyId}}"
+      bindtap="switchFamily"
+    >
+      <view class="fam-left">
+        <view class="fam-name">{{item.familyName}}</view>
+        <view class="fam-id">ID: {{item.familyId}}</view>
+      </view>
+      <view class="fam-right">
+        <text class="badge {{item.current ? 'cur' : ''}}">{{item.current ? '当前' : '切换'}}</text>
+        <text class="copy-mini" data-fid="{{item.familyId}}" catchtap="copyInvite">复制</text>
+      </view>
     </view>
-    <view class="muted">把下面这个家庭ID发给你想一起写日记的家人：</view>
-    <view class="code-box" bindtap="copyId">
-      <text class="code-text">{{familyId}}</text>
-      <text class="copy">复制</text>
-    </view>
+
+    <!-- 继续加入更多家庭 -->
+    <view class="section-title" style="margin-top:28rpx;">加入更多家庭</view>
+    <button class="ghost-btn" bindtap="toggleJoin">{{showJoin ? '收起' : '输入家庭ID加入'}}</button>
+    <block wx:if="{{showJoin}}">
+      <view class="row" style="margin-top:16rpx;">
+        <input class="input" placeholder="粘贴家庭ID" value="{{inviteCode}}" bindinput="onInvite" />
+      </view>
+      <button class="btn-primary block" bindtap="joinFamily">加入</button>
+    </block>
   </view>
 
   <view class="tip card">
     <view class="section-title">小贴士</view>
     <view class="muted">· 每天在「今日」回答三个问题，可打字也可录音。</view>
-    <view class="muted">· 在「家人」查看彼此今天的回答。</view>
+    <view class="muted">· 在「家人」查看当前家庭的彼此回答（顶部可切换家庭）。</view>
     <view class="muted">· 在「往期」回顾过去的日记。</view>
+    <view class="muted">· 一个人可以加入多个家庭，互相独立、互不干扰。</view>
   </view>
 </view>

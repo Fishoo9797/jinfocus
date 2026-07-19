@@ -1,13 +1,14 @@
 // app.js
 App({
   globalData: {
-    // 云开发环境 ID —— 在微信开发者工具开通云开发后填入
-    // 你已经开通云开发，环境 ID 已填入
+    // 云开发环境 ID —— 已填入
     envId: 'cloud1-d5grzvxu0c2f1eb04',
     openid: '',
-    userInfo: null, // { _id, nickName, familyId, openid }
-    familyId: '',
-    familyName: ''
+    userInfo: null, // { _id, nickName, familyIds, currentFamilyId, currentFamilyName }
+    familyId: '',          // 当前家庭ID（= currentFamilyId）
+    familyName: '',        // 当前家庭名
+    familyIds: [],         // 已加入的家庭ID列表
+    families: []           // [{ familyId, familyName }]
   },
 
   onLaunch() {
@@ -34,8 +35,13 @@ App({
           this.globalData.openid = openid;
           if (user) {
             this.globalData.userInfo = user;
-            this.globalData.familyId = user.familyId || '';
-            this.globalData.familyName = user.familyName || '';
+            this.globalData.familyId = user.currentFamilyId || '';
+            this.globalData.familyName = user.currentFamilyName || '';
+            this.globalData.familyIds = user.familyIds || [];
+            this.globalData.families = (user.familyIds || []).map((fid) => ({
+              familyId: fid,
+              familyName: fid === user.currentFamilyId ? user.currentFamilyName : ''
+            }));
           }
           resolve(res.result);
         },

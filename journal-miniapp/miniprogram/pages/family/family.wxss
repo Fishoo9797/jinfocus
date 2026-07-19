@@ -6,6 +6,18 @@
   font-size: 40rpx;
   font-weight: 700;
 }
+.fam-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 12rpx;
+  background: #fdf3ea;
+  border: 1rpx solid #ecd9c5;
+  border-radius: 30rpx;
+  padding: 8rpx 22rpx;
+}
+.fs-name { font-size: 26rpx; color: #c08552; font-weight: 600; }
+.fs-change { font-size: 24rpx; color: #b3a596; }
 
 .member-head {
   display: flex;

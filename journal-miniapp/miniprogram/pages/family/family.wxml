@@ -3,6 +3,10 @@
   <view class="header">
     <view class="date-big">{{prettyDate}}</view>
     <view class="muted">家人的今日三问</view>
+    <view class="fam-switch" wx:if="{{familyName}}" bindtap="goProfile">
+      <text class="fs-name">{{familyName}}</text>
+      <text class="fs-change">切换 ›</text>
+    </view>
   </view>
 
   <view wx:if="{{noFamily}}" class="empty">

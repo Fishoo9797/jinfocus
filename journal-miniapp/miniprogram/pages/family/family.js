@@ -8,11 +8,13 @@ Page({
     prettyDate: '',
     members: [],     // [{ _id, nickName, journal, done }]
     loading: true,
-    noFamily: false
+    noFamily: false,
+    familyName: ''
   },
 
   onShow() {
     this.refreshDate();
+    this.setData({ familyName: app.globalData.familyName || '' });
     this.loadFamily();
   },
 

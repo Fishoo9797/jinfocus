@@ -8,15 +8,15 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
 
-  // 先拿当前用户 → 家庭
+  // 先拿当前用户 → 当前家庭
   const meRes = await db.collection('users').where({ openid }).get();
   if (meRes.data.length === 0) return { data: [] };
   const me = meRes.data[0];
-  const familyId = me.familyId;
+  const familyId = me.currentFamilyId;
   if (!familyId) return { data: [] };
 
-  // 家庭成员的 openid 列表
-  const famRes = await db.collection('users').where({ familyId }).get();
+  // 家庭成员的 openid 列表（按当前家庭过滤）
+  const famRes = await db.collection('users').where({ familyIds: db.command.all([familyId]) }).get();
   const openids = famRes.data.map((u) => u.openid);
 
   if (event.type === 'today') {

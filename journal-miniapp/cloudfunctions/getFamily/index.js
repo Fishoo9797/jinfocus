@@ -8,9 +8,10 @@ exports.main = async (event, context) => {
   const openid = wxContext.OPENID;
 
   const meRes = await db.collection('users').where({ openid }).get();
-  if (meRes.data.length === 0) return { members: [] };
-  const familyId = meRes.data[0].familyId;
-  if (!familyId) return { members: [] };
+  if (meRes.data.length === 0) return { members: [], familyName: '' };
+  const me = meRes.data[0];
+  const familyId = me.currentFamilyId;
+  if (!familyId) return { members: [], familyName: '' };
 
   const famRes = await db.collection('users')
     .where({ familyId })
@@ -38,5 +39,5 @@ exports.main = async (event, context) => {
     };
   });
 
-  return { members };
+  return { members, familyName: me.currentFamilyName || '' };
 };
