@@ -1,0 +1,51 @@
+/* pages/index/index.wxss */
+.header {
+  padding: 16rpx 8rpx 28rpx;
+}
+.date-big {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #4a4036;
+  margin-bottom: 8rpx;
+}
+
+.voice-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 6rpx;
+}
+.voice-btn {
+  flex: 1;
+  background: #faf6ef;
+  color: #c08552;
+  font-size: 28rpx;
+  border-radius: 16rpx;
+}
+.voice-btn.recording {
+  background: #e85d4e;
+  color: #fff;
+}
+.play-btn, .reset-btn {
+  background: #f0e9dd;
+  color: #8a7a68;
+  font-size: 26rpx;
+  border-radius: 16rpx;
+  padding: 0 24rpx;
+}
+
+.save-btn {
+  margin-top: 12rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+}
+
+.saved-tip {
+  text-align: center;
+  margin-top: 24rpx;
+}
+.link {
+  color: #c08552;
+  font-weight: 600;
+  margin-top: 8rpx;
+}

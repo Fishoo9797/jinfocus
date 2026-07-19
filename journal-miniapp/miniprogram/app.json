@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/family/family",
+    "pages/history/history",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f7f1e8",
+    "navigationBarTitleText": "家人日记",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f7f1e8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#c08552",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "今日"
+      },
+      {
+        "pagePath": "pages/family/family",
+        "text": "家人"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "往期"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

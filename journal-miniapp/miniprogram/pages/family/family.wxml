@@ -1,0 +1,42 @@
+<!-- pages/family/family.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="date-big">{{prettyDate}}</view>
+    <view class="muted">家人的今日三问</view>
+  </view>
+
+  <view wx:if="{{noFamily}}" class="empty">
+    <view>还没有家庭～</view>
+    <view class="link" bindtap="goProfile">去「我的」创建 / 加入家庭</view>
+  </view>
+
+  <view wx:elif="{{loading}}" class="empty">加载中...</view>
+
+  <block wx:else>
+    <view class="member card" wx:for="{{members}}" wx:key="_id">
+      <view class="member-head">
+        <view class="avatar">{{item.nickName[0]}}</view>
+        <view class="name">{{item.nickName}}</view>
+        <view class="badge {{item.done ? 'done' : 'todo'}}">
+          {{item.done ? '已完成' : '还没写'}}
+        </view>
+      </view>
+
+      <block wx:if="{{item.done}}">
+        <view class="q-line" wx:if="{{item.journal.q1}}">
+          <text class="q-label">①</text><text class="q-text">{{item.journal.q1}}</text>
+        </view>
+        <view class="q-line" wx:if="{{item.journal.q2}}">
+          <text class="q-label">②</text><text class="q-text">{{item.journal.q2}}</text>
+        </view>
+        <view class="q-line" wx:if="{{item.journal.q3}}">
+          <text class="q-label">③</text><text class="q-text">{{item.journal.q3}}</text>
+        </view>
+        <view class="voice-tag" wx:if="{{item.journal.voiceFileID}}" data-file="{{item.journal.voiceFileID}}" bindtap="playMemberVoice">
+          🎧 听语音小记
+        </view>
+      </block>
+      <view wx:else class="muted todo-text">今天还没留下痕迹，等Ta来填～</view>
+    </view>
+  </block>
+</view>

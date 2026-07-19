@@ -1,0 +1,57 @@
+<!-- pages/profile/profile.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="title">我的</view>
+  </view>
+
+  <!-- 昵称设置 -->
+  <view class="card">
+    <view class="section-title">我的昵称</view>
+    <view class="row">
+      <input class="input" placeholder="如：盈 / Mama / 爸爸" value="{{nickName}}" bindinput="onNick" />
+      <button class="mini-btn" bindtap="saveNick">保存</button>
+    </view>
+  </view>
+
+  <!-- 家庭区域 -->
+  <view class="card" wx:if="{{!joined}}">
+    <view class="section-title">家庭空间</view>
+    <view class="muted">创建或加入一个家庭，大家就能互相看到每天的日记啦。</view>
+
+    <view class="section-title" style="margin-top:24rpx;">① 创建家庭</view>
+    <view class="row">
+      <input class="input" placeholder="家庭名称，如：盈的一家" value="{{familyName}}" bindinput="onFamily" />
+    </view>
+    <button class="btn-primary block" bindtap="createFamily">创建家庭</button>
+
+    <view class="section-title" style="margin-top:28rpx;">② 加入已有家庭</view>
+    <button class="ghost-btn" bindtap="toggleJoin">{{showJoin ? '收起' : '输入家庭ID加入'}}</button>
+    <block wx:if="{{showJoin}}">
+      <view class="row" style="margin-top:16rpx;">
+        <input class="input" placeholder="粘贴家人分享的家庭ID" value="{{inviteCode}}" bindinput="onInvite" />
+      </view>
+      <button class="btn-primary block" bindtap="joinFamily">加入</button>
+    </block>
+  </view>
+
+  <!-- 已加入家庭 -->
+  <view class="card" wx:else>
+    <view class="section-title">我的家庭</view>
+    <view class="family-line">
+      <text class="fname">{{familyName}}</text>
+      <text class="fcount">{{memberCount}} 位成员</text>
+    </view>
+    <view class="muted">把下面这个家庭ID发给你想一起写日记的家人：</view>
+    <view class="code-box" bindtap="copyId">
+      <text class="code-text">{{familyId}}</text>
+      <text class="copy">复制</text>
+    </view>
+  </view>
+
+  <view class="tip card">
+    <view class="section-title">小贴士</view>
+    <view class="muted">· 每天在「今日」回答三个问题，可打字也可录音。</view>
+    <view class="muted">· 在「家人」查看彼此今天的回答。</view>
+    <view class="muted">· 在「往期」回顾过去的日记。</view>
+  </view>
+</view>

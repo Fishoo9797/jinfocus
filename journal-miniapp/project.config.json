@@ -1,0 +1,20 @@
+{
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "projectname": "family-journal",
+  "description": "家人共享的每日三问日记小程序",
+  "appid": "wx92a387da876c1597",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "nodeModules": false,
+    "checkInvalidKey": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.0.0",
+  "condition": {}
+}

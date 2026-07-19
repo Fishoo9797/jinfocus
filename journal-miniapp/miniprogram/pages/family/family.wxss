@@ -1,0 +1,71 @@
+/* pages/family/family.wxss */
+.header {
+  padding: 16rpx 8rpx 24rpx;
+}
+.date-big {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.member-head {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18rpx;
+}
+.avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: #c08552;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18rpx;
+}
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  flex: 1;
+}
+.badge {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+.badge.done { background: #e8f3e3; color: #5b9e4a; }
+.badge.todo { background: #f3ece2; color: #b3a596; }
+
+.q-line {
+  margin-bottom: 12rpx;
+  display: flex;
+}
+.q-label {
+  color: #c08552;
+  font-weight: 700;
+  margin-right: 10rpx;
+}
+.q-text {
+  flex: 1;
+  color: #4a4036;
+  word-break: break-all;
+}
+.voice-tag {
+  display: inline-block;
+  margin-top: 8rpx;
+  background: #faf6ef;
+  color: #c08552;
+  font-size: 26rpx;
+  padding: 10rpx 22rpx;
+  border-radius: 30rpx;
+}
+.todo-text {
+  padding: 10rpx 0;
+}
+.link {
+  color: #c08552;
+  font-weight: 600;
+  margin-top: 16rpx;
+}

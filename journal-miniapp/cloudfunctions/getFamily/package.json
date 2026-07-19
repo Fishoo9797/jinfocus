@@ -1,0 +1,9 @@
+{
+  "name": "getFamily",
+  "version": "1.0.0",
+  "description": "获取家庭成员及其今日完成情况",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

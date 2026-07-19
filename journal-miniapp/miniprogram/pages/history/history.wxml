@@ -1,0 +1,34 @@
+<!-- pages/history/history.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="title">往期回顾</view>
+    <view class="filter">
+      <view class="tab {{filter === 'all' ? 'on' : ''}}" data-f="all" bindtap="switchFilter">全家</view>
+      <view class="tab {{filter === 'mine' ? 'on' : ''}}" data-f="mine" bindtap="switchFilter">我的</view>
+    </view>
+  </view>
+
+  <view wx:if="{{noFamily}}" class="empty">
+    <view>还没有家庭～</view>
+    <view class="link" bindtap="goProfile">去「我的」创建 / 加入家庭</view>
+  </view>
+
+  <view wx:elif="{{loading}}" class="empty">加载中...</view>
+
+  <block wx:elif="{{entries.length === 0}}">
+    <view class="empty">还没有往期日记，先从今天的「今日」开始吧 🌿</view>
+  </block>
+
+  <block wx:else>
+    <view class="day card" wx:for="{{entries}}" wx:key="_id">
+      <view class="day-head">
+        <view class="day-date">{{item.prettyDate}}</view>
+        <view class="day-author" wx:if="{{filter === 'all'}}">{{item.author}}</view>
+      </view>
+      <view class="q-line" wx:if="{{item.q1}}"><text class="q-label">①</text><text class="q-text">{{item.q1}}</text></view>
+      <view class="q-line" wx:if="{{item.q2}}"><text class="q-label">②</text><text class="q-text">{{item.q2}}</text></view>
+      <view class="q-line" wx:if="{{item.q3}}"><text class="q-label">③</text><text class="q-text">{{item.q3}}</text></view>
+      <view class="voice-tag" wx:if="{{item.voiceFileID}}" data-file="{{item.voiceFileID}}" bindtap="playVoice">🎧 听语音小记</view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,78 @@
+/* app.wxss —— 全局样式，暖色温馨风格 */
+page {
+  background: #f7f1e8;
+  color: #4a4036;
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 30rpx;
+  line-height: 1.6;
+}
+
+.container {
+  padding: 32rpx 28rpx 60rpx;
+  box-sizing: border-box;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 32rpx 30rpx;
+  margin-bottom: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(192, 133, 82, 0.08);
+}
+
+.section-title {
+  font-size: 26rpx;
+  color: #c08552;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  margin-bottom: 14rpx;
+}
+
+.question-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #4a4036;
+  margin-bottom: 6rpx;
+}
+
+.question-hint {
+  font-size: 24rpx;
+  color: #b3a596;
+  margin-bottom: 18rpx;
+}
+
+textarea.answer {
+  width: 100%;
+  min-height: 120rpx;
+  background: #faf6ef;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  font-size: 30rpx;
+  color: #4a4036;
+}
+
+.btn-primary {
+  background: #c08552;
+  color: #fff;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.btn-primary[disabled] {
+  background: #e0cdb8;
+  color: #fff;
+}
+
+.empty {
+  text-align: center;
+  color: #b3a596;
+  font-size: 28rpx;
+  padding: 80rpx 0;
+}
+
+.muted {
+  color: #b3a596;
+  font-size: 24rpx;
+}

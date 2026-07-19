@@ -1,0 +1,9 @@
+{
+  "name": "saveJournal",
+  "version": "1.0.0",
+  "description": "保存/更新当日日记，更新昵称",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

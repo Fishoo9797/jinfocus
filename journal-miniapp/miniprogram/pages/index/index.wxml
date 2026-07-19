@@ -1,0 +1,68 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="date-big">{{prettyDate}}</view>
+    <view class="muted">每天三个小问题，和家人们一起记录生活</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">加载中...</view>
+
+  <block wx:else>
+    <!-- 三个问题 -->
+    <view class="card" wx:for="{{questions}}" wx:key="key">
+      <view class="question-text">{{index + 1}}. {{item.title}}</view>
+      <view class="question-hint">{{item.hint}}</view>
+      <textarea
+        class="answer"
+        placeholder="写下你的回答…"
+        value="{{answers[item.key]}}"
+        data-key="{{item.key}}"
+        bindinput="onInput"
+        disabled="{{saved}}"
+        maxlength="-1"
+      />
+    </view>
+
+    <!-- 语音条 -->
+    <view class="card">
+      <view class="section-title">语音小记（可选）</view>
+      <view class="voice-row">
+        <button
+          class="voice-btn {{recording ? 'recording' : ''}}"
+          bindtap="toggleRecord"
+          disabled="{{saved}}"
+        >
+          {{recording ? '停止录音 ' + recDuration/1000 + 's' : (voiceTempPath || voiceFileID ? '重新录音' : '开始录音')}}
+        </button>
+        <button
+          class="play-btn"
+          bindtap="playVoice"
+          wx:if="{{voiceTempPath || voiceFileID}}"
+          disabled="{{playing}}"
+        >
+          {{playing ? '播放中…' : '试听'}}
+        </button>
+        <button
+          class="reset-btn"
+          bindtap="resetVoice"
+          wx:if="{{voiceTempPath || voiceFileID}}"
+          disabled="{{saved}}"
+        >删除</button>
+      </view>
+    </view>
+
+    <!-- 保存 -->
+    <button
+      class="btn-primary save-btn"
+      bindtap="save"
+      disabled="{{saved}}"
+    >
+      {{saved ? '今天已保存 ✓' : '保存今日日记'}}
+    </button>
+
+    <view wx:if="{{saved}}" class="saved-tip">
+      <view class="muted">今天的内容已记录，去「家人」看看他们写了什么吧 →</view>
+      <view class="link" bindtap="goFamily">查看家人日记</view>
+    </view>
+  </block>
+</view>
