@@ -67,7 +67,28 @@ journal-miniapp/
 | `families` | `familyId`, `familyName`, `createdBy`, `createdAt` |
 | `journals` | `_openid`, `date`, `q1`, `q2`, `q3`, `voiceFileID`, `createdAt` |
 
-> 建议在 `journals` 上给 `_openid` 和 `date` 加索引，查询更快。
+### 初始化步骤（建议按顺序做）
+
+1. **建集合**：云开发控制台 → 数据库 → 新建集合，依次建 `users`、`families`、`journals`。
+2. **建索引**（不建也能跑，但查询会慢、数据量大时可能超时）：
+   - `journals` 集合 → 索引管理 → 添加索引：
+     - 字段 `{ "_openid": 1, "date": 1 }`，索引名如 `openid_date`
+     - 字段 `{ "date": -1 }`，索引名如 `date_desc`（往期按日期倒序用）
+   - `users` 集合 → 添加索引：
+     - 字段 `{ "openid": 1 }`，索引名 `openid`（登录查找用）
+     - 字段 `{ "familyIds": 1 }`，索引名 `familyIds`（按家庭查成员用，数组字段索引）
+3. **权限设置**：三个集合的"权限设置"都选 **「仅创建者可读写」** 或 **「所有用户可读，仅创建者可读写」** 均可——因为所有读写都走云函数（管理员权限），**端侧权限不影响功能**，默认即可。
+4. **无需手动插入数据**：用户首次打开小程序会自动建档（`login` 云函数写入 `users`），创建/加入家庭自动写 `families`。
+
+### 关于数组字段查询（重要）
+
+`users.familyIds` 是数组，`getJournals` / `getFamily` 用它判断"某人属于某家庭"时，用的是云开发数组查询写法：
+
+```js
+db.collection('users').where({ familyIds: db.command.all([familyId]) })
+```
+
+这是官方推荐写法，表示"familyIds 数组中包含该 familyId"。**不要用普通的 `==`**，否则查不到。
 
 ## 权限说明
 
